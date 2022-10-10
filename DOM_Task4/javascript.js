@@ -30,5 +30,10 @@
 // var items=document.querySelector(".list-group-item:nth-child(3)");
 // items.style.display="none";
 
-var items=document.querySelectorAll("li");
-  items[1].style.color="green";
+// var items=document.querySelectorAll("li");
+//   items[1].style.color="green";
+ var odd=document.querySelectorAll("li:nth-child(odd)");
+for(var i=0;i<odd.length;i++)
+{
+    odd[i].style.background="green";
+}
