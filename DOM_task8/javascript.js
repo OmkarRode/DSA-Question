@@ -1,7 +1,7 @@
 var form = document.getElementById('addForm');
 var itemList=document.getElementById('items');
 form.addEventListener('submit',addItem);
-
+itemList.addEventListener('click',removeItem);
 // adding a item
 function addItem(e){
     e.preventDefault();
@@ -21,4 +21,15 @@ li.appendChild(delButton);
 
 itemList.appendChild(li);
 
+}
+
+function removeItem(e)
+{
+if(e.target.classList.contains('delete')){
+    if(confirm('are you sure ?'))
+    {
+        var li=e.target.parentElement;
+        itemList.removeChild(li);
+    }
+}
 }
