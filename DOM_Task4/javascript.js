@@ -13,9 +13,15 @@ var item= document.getElementsByClassName("list-group-item");
     
 // }
 
-for(var i=0;i<item.length;i++)
+// for(var i=0;i<item.length;i++)
+//  {
+//     item[i].style.background="grey"
+//  }
+
+ var itemTag=document.getElementsByTagName("li");
+ for(var i=0;i<itemTag.length;i++)
  {
-    item[i].style.background="grey"
+    itemTag[i].style.background="grey"
  }
 
  
