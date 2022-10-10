@@ -18,10 +18,11 @@ var item= document.getElementsByClassName("list-group-item");
 //     item[i].style.background="grey"
 //  }
 
- var itemTag=document.getElementsByTagName("li");
- for(var i=0;i<itemTag.length;i++)
- {
-    itemTag[i].style.background="grey"
- }
+//  var itemTag=document.getElementsByTagName("li");
+//  for(var i=0;i<itemTag.length;i++)
+//  {
+//     itemTag[i].style.background="grey"
+//  }
 
- 
+ var items=document.querySelector(".list-group-item:nth-child(2)");
+ items.style.background="green"
