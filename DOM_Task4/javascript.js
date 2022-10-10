@@ -24,5 +24,8 @@ var item= document.getElementsByClassName("list-group-item");
 //     itemTag[i].style.background="grey"
 //  }
 
- var items=document.querySelector(".list-group-item:nth-child(2)");
- items.style.background="green"
+//  var items=document.querySelector(".list-group-item:nth-child(2)");
+//  items.style.background="green"
+
+var items=document.querySelector(".list-group-item:nth-child(3)");
+items.style.display="none";
