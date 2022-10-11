@@ -33,3 +33,27 @@ if(e.target.classList.contains('delete')){
     }
 }
 }
+
+
+
+
+// filter items
+
+var filter=document.getElementById("filter");
+filter.addEventListener('keyup', filterItems);
+
+
+function filterItems(e){
+    var filterValue = e.target.value.toLowerCase();
+  
+ var items=document.getElementsByTagName('li');
+    
+   
+Array.from(items).forEach(function(items){
+    var itemName = items.firstChild.textContent;
+    if(itemName.toLowerCase().indexOf(filterValue) != -1){
+      items.style.display = 'block';
+    } else {
+      items.style.display = 'none';
+    }
+  })};
