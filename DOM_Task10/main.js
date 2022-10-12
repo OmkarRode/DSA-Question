@@ -23,7 +23,7 @@ var myobj={
 
 var myobjSerilized=JSON.stringify(myobj);
 // console.log(myobjSerilized);
-localStorage.setItem(name,myobjSerilized);
+localStorage.setItem(email,myobjSerilized);
 
 // desrization process ;
 var myObjDeserilized=JSON.stringify(localStorage.getItem(name));
