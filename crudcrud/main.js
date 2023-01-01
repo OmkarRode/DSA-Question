@@ -1,55 +1,145 @@
 
-
+// geting submit button id
 var submitt=document.getElementById('my-form');
+
+//delcare click event in submit button
 submitt.addEventListener('submit',additem);
-var it=document.getElementById('it');
 
 
-function additem(e){
-    e.preventDefault();
+// 
+var ulId=document.getElementById('ulList');
 
-    var iname=document.getElementById('name').value;
-var iemail=document.getElementById('email').value;
-if(iname=='' || iemail=='')
+
+function additem(e)
 {
-    alert("plaese fill information");
+        e.preventDefault();
+
+        // getting name and email from value 
+        var txtname=document.getElementById('name').value;
+        var txtemail=document.getElementById('email').value;
+
+    // set input codition  
+    if(txtname=='' || txtemail=='')
+    {
+        alert("plaese fill information");
+    }
+    else
+    {
+        var flag=0
+        // for(var i=0;i<localStorage.length;i++)
+        // {
+        //                 var x=localStorage.key(i);
+        //                 if(txtemail==x)
+        //                 {
+        //                     alert("your data alredy submitted");
+        //                     flag=1;
+        //                 }
+            
+        // }
+
+        // create object
+        if(flag==0)
+        {
+                                var myobj={
+                                name: txtname,
+                                email : txtemail
+                                }
+
+                        // object convert to the serilised
+                        //var myobjSerilized=JSON.stringify(myobj);
+
+                                axios.post("https://crudcrud.com/api/1bd799930d5440d68888466471351b1e/appioment",myobj)
+                                .then((Response) =>{
+                                    console.log(Response);
+                                }).catch( (err)=>{console.log(err)});
+                            //store value in local storage key is email
+                            //localStorage.setItem(txtemail,myobjSerilized);
+
+                        //alert message showin data submitted
+                        alert("data is sumbmited sucessfully");
+                        
+
+                        // var userDetailsObj=JSON.parse(localStorage.getItem(txtemail));
+                        showNewUserOnScreen()
+        }
+    }
 }
-else
-{
-var myobj={
-    OName: iname,
-    OEmail : iemail
+// crate new li list 
+function showNewUserOnScreen(){
+    
+    document.getElementById('name').value = '';
+    document.getElementById('email').value = '';
+    const parentNode = document.getElementById('ulList');
+    parentNode.innerHTML="";
+
+    axios.get("https://crudcrud.com/api/1bd799930d5440d68888466471351b1e/appioment")
+                        .then((Response) =>{
+                           let user=Response.data;
+                           for(var i=0;i<user.length;i++)
+                           {
+                               const childHTML = `<li id=${user[i].email}> ${user[i].name} - ${user[i].email}
+                               <button onclick=deleteUser('${user[i].email}')> Delete User </button>
+                               <button onclick=editUserDetails('${user[i].email}','${user[i].name}')>Edit User </button>
+                            </li>`
+                            parentNode.innerHTML = parentNode.innerHTML + childHTML;
+                        }
+                    }).catch( (err)=>{console.log(err)});
+
+
+}    
+    
+
+
+
+//Edit User
+
+function editUserDetails(emailId,name){
+
+    document.getElementById('email').value = emailId;
+    document.getElementById('name').value = name;
+    
+
+    deleteUser(emailId)
+ }
+
+// deleteUser('abc@gmail.com')
+
+function deleteUser(emailId){
+    
+    axios.get("https://crudcrud.com/api/1bd799930d5440d68888466471351b1e/appioment")
+    .then((Response) =>{
+        for(var i=0;i<Response.data.length;i++)
+        {
+            console.log(Response.data[i]._id);
+           if( Response.data[i].email===emailId)
+           {
+             const serId=Response.data[i]._id;
+             axios.delete(`https://crudcrud.com/api/1bd799930d5440d68888466471351b1e/appioment/${serId}`)
+             .then((Response) =>{
+                 console.log(Response)
+                 showNewUserOnScreen();
+             }).catch( (err)=>{console.log(err)});
+           }
+        }
+
+
+    }).catch( (err)=>{console.log(err)});
+
+
+
+    // localStorage.removeItem(emailId);
+    // console.log(emailId.id)
+    
+    // removeUserFromScreen(emailId);
+
 }
 
-var myobjSerilized=JSON.stringify(myobj);
-// console.log(myobjSerilized);
-localStorage.setItem(iemail,myobjSerilized);
+showNewUserOnScreen();
 
-// desrization process ;
-// var myObjDeserilized=JSON.stringify(localStorage.getItem(name));
-// console.log(myObjDeserilized);
-
-// localStorage.setItem(name,email);
-// alert("data is sumbmited sucessfully");
-var li =document.createElement("li");
-    li.className="item";
-    // var btn = (`<button onclick=edit(${iname})>edit</button><button onclick=delete()>Delete</button>`);
-    var btn = (`<button>edit</button><button onclick=delete()>Delete</button>`);
-    console.log(li.childNodes[1]);
-    li.appendChild(document.createTextNode(`${iname} ${iemail}`));
-    li.innerHTML=li.innerHTML+btn;       
-     it.appendChild(li);
-    // 
-    li.childNodes[1].id='iemail';
-}
-
-}
-
-
-
-//edit button
-function edit(iemail){
-   var input= document.getElementById('name');
-   if(confirm('are you')){
-input.value=iemail;}
-};
+// function removeUserFromScreen(emailId){
+//     const parentNode = document.getElementById('ulList');
+//     const childNodeToBeDeleted = document.getElementById(emailId);
+//     if(childNodeToBeDeleted) {
+//         parentNode.removeChild(childNodeToBeDeleted)
+//     }
+// }
