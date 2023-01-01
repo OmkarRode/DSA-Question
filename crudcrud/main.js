@@ -8,8 +8,10 @@ submitt.addEventListener('submit',additem);
 
 // 
 var ulId=document.getElementById('ulList');
+var flag=0;
 
-
+// help for edit user details;
+var prevEmailId;
 function additem(e)
 {
         e.preventDefault();
@@ -25,7 +27,7 @@ function additem(e)
     }
     else
     {
-        var flag=0
+        
         // for(var i=0;i<localStorage.length;i++)
         // {
         //                 var x=localStorage.key(i);
@@ -61,6 +63,33 @@ function additem(e)
 
                         // var userDetailsObj=JSON.parse(localStorage.getItem(txtemail));
                         showNewUserOnScreen()
+        }
+        else
+        {
+            var myobj={
+                name: txtname,
+                email : txtemail
+                }
+
+                axios.get("https://crudcrud.com/api/1bd799930d5440d68888466471351b1e/appioment")
+    .then((Response) =>{
+        for(var i=0;i<Response.data.length;i++)
+        {
+            console.log(Response.data[i]._id);
+           if( Response.data[i].email===prevEmailId)
+           {
+            console.log(Response.data[i].email);
+             const serId=Response.data[i]._id;
+             axios.put(`https://crudcrud.com/api/1bd799930d5440d68888466471351b1e/appioment/${serId}`,myobj)
+             .then((Response) =>{
+                 console.log(Response)
+                 showNewUserOnScreen();
+             }).catch( (err)=>{console.log(err)});
+           }
+        }
+
+
+    }).catch( (err)=>{console.log(err)});
         }
     }
 }
@@ -98,11 +127,11 @@ function editUserDetails(emailId,name){
     document.getElementById('email').value = emailId;
     document.getElementById('name').value = name;
     
-
-    deleteUser(emailId)
+    prevEmailId =emailId;
+    flag= 1;
  }
 
-// delete buttton 
+// deleteUser('abc@gmail.com')
 
 function deleteUser(emailId){
     
