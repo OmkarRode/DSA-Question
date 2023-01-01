@@ -102,7 +102,7 @@ function editUserDetails(emailId,name){
     deleteUser(emailId)
  }
 
-// deleteUser('abc@gmail.com')
+// delete buttton 
 
 function deleteUser(emailId){
     
